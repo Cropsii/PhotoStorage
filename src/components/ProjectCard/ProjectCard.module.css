@@ -1,0 +1,11 @@
+.ProjectCard {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+.ProjectImage {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}

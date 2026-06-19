@@ -13,7 +13,13 @@ export const LogInForm = () => {
         <FormItem
           name={"email"}
           label="почта"
-          rules={[{ required: true, message: "Поле не должно быть пустым" }]}
+          getValueFromEvent={(e) => e.target.value.toLowerCase()}
+          rules={[
+            {
+              required: true,
+              message: "Поле не должно быть пустым",
+            },
+          ]}
         >
           <Input></Input>
         </FormItem>
