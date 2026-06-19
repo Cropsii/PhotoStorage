@@ -7,31 +7,42 @@ export const AddProjectModal = ({ isOpen, setIsOpen }) => {
   const [form] = Form.useForm();
 
   const { createProject, loading } = useCreateProject();
-  const finish = (values) => {
+  const finish = async (values) => {
     const rawFile = values.file?.[0]?.originFileObj || null;
     const payload = {
       ...values,
       file: rawFile,
     };
-    createProject(payload);
+    await createProject(payload);
     form.resetFields();
   };
   const normFile = (e) => {
     return e?.fileList;
   };
   return (
-    <Modal
-      title="Добавить проект"
-      open={isOpen}
-      onCancel={() => setIsOpen(false)}
-      footer={null}
-      mask={blur}
+    <Form
+      form={form}
+      initialValues={{ remember: true }}
+      onFinish={finish}
+      layout="vertical"
     >
-      <Form
-        form={form}
-        initialValues={{ remember: true }}
-        onFinish={finish}
-        layout="vertical"
+      <Modal
+        destroyOnHidden={true}
+        title="Добавить проект"
+        open={isOpen}
+        onCancel={() => setIsOpen(false)}
+        footer={[
+          <Button
+            key="submit"
+            type="primary"
+            htmlType="submit"
+            block
+            loading={loading}
+            onClick={() => form.submit()}
+          >
+            Добавить
+          </Button>,
+        ]}
       >
         <FormItem
           name={"title"}
@@ -65,12 +76,7 @@ export const AddProjectModal = ({ isOpen, setIsOpen }) => {
             </Upload>
           </FormItem>
         </Flex>
-        <FormItem>
-          <Button htmlType="submit" loading={loading} type="primary" block>
-            Добавить
-          </Button>
-        </FormItem>
-      </Form>
-    </Modal>
+      </Modal>
+    </Form>
   );
 };
