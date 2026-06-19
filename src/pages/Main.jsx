@@ -14,15 +14,15 @@ export const Main = () => {
     }
   }, [data, setMainData]);
   return (
-    <Layout style={{ minHeight: "100dvh" }}>
+    <Layout style={{ minHeight: "100dvh", padding: "24px" }}>
       <Layout.Content>
-        <Row gutter={[24, 24]}>
+        <Row gutter={[24, 24]} justify={loading ? "center" : "start"}>
           {loading ? (
-            <Spin></Spin>
+            <Spin size="large" />
           ) : (
             mainData.map((item) => (
-              <Col span={4}>
-                <ProjectCard key={item.id} record={item} />
+              <Col key={item.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+                <ProjectCard record={item} />
               </Col>
             ))
           )}

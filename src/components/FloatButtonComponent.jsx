@@ -8,7 +8,7 @@ import {
   LogoutOutlined,
   MoonOutlined,
   SunOutlined,
-  ToolFilled,
+  ToolOutlined,
 } from "@ant-design/icons";
 import { ThemeContext } from "../Contexts/ThemeContext";
 
@@ -19,7 +19,7 @@ export const FloatButtonComponent = () => {
   return (
     <>
       <AddProjectModal isOpen={open} setIsOpen={setState}></AddProjectModal>
-      <FloatButtonGroup trigger="click" icon={<ToolFilled></ToolFilled>}>
+      <FloatButtonGroup trigger="click" icon={<ToolOutlined></ToolOutlined>}>
         <Popconfirm
           cancelText="нет"
           okText="да"
