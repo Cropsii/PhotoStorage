@@ -1,58 +1,69 @@
-import { Card, Image, Popconfirm } from "antd";
+import { Card, Image, Popconfirm, Spin, Tooltip, Typography } from "antd";
 import { useImgUrl } from "../../Hooks/useImgUrl";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteItem } from "../../Hooks/useDeleteItem";
 import styles from "./ProjectCard.module.css";
-import { EditProjectModal } from "../EditProjectModal/EditProjectModal";
-import { useState } from "react";
-export const ProjectCard = ({ record }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { url } = useImgUrl(record);
-  const { deleteItem, loading } = useDeleteItem();
+import { useContext } from "react";
+import { ProjectContext } from "../../Contexts/ProjectContext";
+
+export const ProjectCard = ({ record, giveOpenData }) => {
+  const { url, loading: imgLoading } = useImgUrl(record);
+  const { deleteItem, error } = useDeleteItem();
+  const { setMainData } = useContext(ProjectContext);
+  const realFakeDele = async () => {
+    await deleteItem(record.collectionName, record.id);
+    if (!error) {
+      setMainData((prev) => prev.filter((item) => item.id != record.id));
+    }
+  };
 
   return (
-    <>
-      <EditProjectModal
-        record={record}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      ></EditProjectModal>
+    <Spin percent={"auto"} spinning={imgLoading}>
       <Card
+        extra={
+          <Typography.Text type="secondary">{`#${record.index}`}</Typography.Text>
+        }
         hoverable
         className={styles.ProjectCard}
-        loading={loading}
         cover={
-          url && (
-            <Image
-              style={{
-                height: "200px",
-                width: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
-              className={styles.ProjectImage}
-              src={url}
-              alt={record.id}
-            ></Image>
-          )
+          <Image
+            loading="lazy"
+            placeholder
+            style={{
+              height: "200px",
+              width: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+            className={styles.ProjectImage}
+            src={url}
+            alt={record.id}
+          ></Image>
         }
         title={record?.title}
         actions={[
-          <EditOutlined onClick={() => setIsOpen(true)}></EditOutlined>,
-
+          <Tooltip title="Редактирвоть проект?" mouseEnterDelay={0.8}>
+            <EditOutlined onClick={() => giveOpenData(record)}></EditOutlined>
+          </Tooltip>,
           <Popconfirm
             description={"Дейстиве необратимо"}
             title="Удалить?"
             okText="Да"
             cancelText="Нет"
-            onConfirm={() => deleteItem(record.collectionName, record.id)}
+            onConfirm={() => realFakeDele()}
           >
             <DeleteOutlined></DeleteOutlined>
           </Popconfirm>,
         ]}
       >
-        <Card.Meta description={record.description}></Card.Meta>
+        <Card.Meta
+          description={
+            <Typography.Paragraph ellipsis={{ rows: 1 }}>
+              {record.description}
+            </Typography.Paragraph>
+          }
+        ></Card.Meta>
       </Card>
-    </>
+    </Spin>
   );
 };

@@ -1,10 +1,10 @@
-import { pb } from "./PB";
+import { pb } from "../../Utils/PB";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
-import { AuthContext } from "../Contexts/AuthContext";
-import { FloatButtonComponent } from "../components/FloatButtonComponent";
+import { AuthContext } from "../AuthContext";
+import { FloatButtonComponent } from "../../components/FloatButtonComponent";
 
-export const AuthCheck = () => {
+export const AuthCheckProvider = () => {
   const navigate = useNavigate();
   const [sesion, setSesion] = useState(pb.authStore.isValid);
   const [user, setUser] = useState(pb.authStore.record);

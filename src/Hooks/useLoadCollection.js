@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { pb } from "../Utils/PB";
 import { App } from "antd";
 
-export function useLoadCollection(collection, page, perPage, reload) {
+export function useLoadCollection(
+  collection,
+  page,
+  perPage,
+  listRyles = {},
+  reload,
+) {
   const { message } = App.useApp();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,7 +20,7 @@ export function useLoadCollection(collection, page, perPage, reload) {
         setLoading(true);
         const resultList = await pb
           .collection(collection)
-          .getList(page, perPage);
+          .getList(page, perPage, listRyles);
         setData(resultList.items);
       } catch (error) {
         console.error(error);
@@ -26,7 +32,7 @@ export function useLoadCollection(collection, page, perPage, reload) {
     };
 
     load();
-  }, [collection, page, perPage, reload, message]);
+  }, [collection, page, perPage, reload, listRyles, message]);
 
   return { data, loading, error };
 }

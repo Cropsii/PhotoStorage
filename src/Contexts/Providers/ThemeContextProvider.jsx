@@ -1,9 +1,9 @@
 import { ConfigProvider, theme } from "antd";
 import { useEffect, useState } from "react";
-import { ThemeContext } from "../Contexts/ThemeContext";
+import { ThemeContext } from "../ThemeContext";
 
 
-export const ThemeContextComponent = ({ children }) => {
+export const ThemeContextProvider = ({ children }) => {
   const [mode, setMode] = useState(() => {
     const isSystemDark = window.matchMedia(
       "(prefers-color-scheme: dark)",

@@ -1,0 +1,31 @@
+import { Col, Empty, Row, Spin } from "antd";
+import { ProjectCard } from "./ProjectCard/ProjectCard";
+
+export const ProjectGrid = ({ loading, data, editModalOpenSetData }) => {
+  const isEmptyData = !data || data.length === 0;
+
+  if (loading) {
+    return <Spin size="large" fullscreen percent="auto" />;
+  }
+
+  if (isEmptyData) {
+    return (
+      <Row align={"middle"} justify={"center"}>
+        <Empty
+          description="Ничего нет - добавте проекты"
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+      </Row>
+    );
+  }
+
+  return (
+    <Row gutter={[24, 24]} justify="start">
+      {data.map((item) => (
+        <Col key={item.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+          <ProjectCard record={item} giveOpenData={editModalOpenSetData} />
+        </Col>
+      ))}
+    </Row>
+  );
+};

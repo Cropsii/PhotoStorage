@@ -1,5 +1,5 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Flex, Form, Input, Modal, Upload } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Upload } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import useCreateProject from "../Hooks/useCreateProject";
 
@@ -8,6 +8,8 @@ export const AddProjectModal = ({ isOpen, setIsOpen }) => {
 
   const { createProject, loading } = useCreateProject();
   const finish = async (values) => {
+    console.log(values);
+
     const rawFile = values.file?.[0]?.originFileObj || null;
     const payload = {
       ...values,
@@ -16,9 +18,7 @@ export const AddProjectModal = ({ isOpen, setIsOpen }) => {
     await createProject(payload);
     form.resetFields();
   };
-  const normFile = (e) => {
-    return e?.fileList;
-  };
+
   return (
     <Form
       form={form}
@@ -44,6 +44,9 @@ export const AddProjectModal = ({ isOpen, setIsOpen }) => {
           </Button>,
         ]}
       >
+        <FormItem label="ID" name={"index"} rules={[{ required: true }]}>
+          <InputNumber min={0}></InputNumber>
+        </FormItem>
         <FormItem
           name={"title"}
           label="Имя проекта"
@@ -58,24 +61,23 @@ export const AddProjectModal = ({ isOpen, setIsOpen }) => {
         >
           <Input.TextArea rows={2}></Input.TextArea>
         </FormItem>
-        <Flex align="center" vertical>
-          <FormItem
-            label="Обложка"
-            name={"file"}
-            getValueFromEvent={normFile}
-            valuePropName="fileList"
+        <FormItem
+          rules={[{ required: true }]}
+          label="Обложка"
+          name={"file"}
+          getValueFromEvent={(e) => e?.fileList}
+          valuePropName="fileList"
+        >
+          <Upload
+            accept={".png,.jpg,.jpeg"}
+            name="picture"
+            listType="picture-card"
+            maxCount={1}
+            beforeUpload={() => false}
           >
-            <Upload
-              accept={".png,.jpg"}
-              name="picture"
-              listType="picture-card"
-              maxCount={1}
-              beforeUpload={() => false}
-            >
-              <UploadOutlined></UploadOutlined>
-            </Upload>
-          </FormItem>
-        </Flex>
+            <UploadOutlined></UploadOutlined>
+          </Upload>
+        </FormItem>
       </Modal>
     </Form>
   );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProjectContext } from "../Contexts/ProjectContext";
+import { ProjectContext } from "../ProjectContext";
 
 export const ProjectProvider = ({ children }) => {
   const [mainData, setMainData] = useState([]);

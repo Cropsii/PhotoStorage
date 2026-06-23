@@ -10,7 +10,6 @@ export default function useCreateProject() {
 
   const { message } = App.useApp();
   const { user } = useContext(AuthContext);
-  console.log(`useCreateProject ${user?.id}`);
 
   const [loading, setLodaing] = useState(false);
   async function createProject(data) {
@@ -20,7 +19,9 @@ export default function useCreateProject() {
       setReload((prev) => !prev);
     } catch (error) {
       console.error(error);
-      message.error("Не удалось создать проект");
+      message.error(
+        `Не удалось создать проект ${error.data.data.index.message}`,
+      );
     } finally {
       setLodaing(false);
     }

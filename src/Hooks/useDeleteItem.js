@@ -1,10 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { pb } from "../Utils/PB";
 import { App } from "antd";
-import { ProjectContext } from "../Contexts/ProjectContext";
 
 export function useDeleteItem() {
-  const { setMainData } = useContext(ProjectContext);
   const { message } = App.useApp();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,7 +13,6 @@ export function useDeleteItem() {
     try {
       setLoading(true);
       await pb.collection(collectionName).delete(itemId);
-      setMainData((prev) => prev.filter((item) => item.id != itemId));
     } catch (error) {
       setError(error);
       console.error(error.message);
