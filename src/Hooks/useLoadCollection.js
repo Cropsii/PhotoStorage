@@ -21,7 +21,7 @@ export function useLoadCollection(
         const resultList = await pb
           .collection(collection)
           .getList(page, perPage, listRyles);
-        setData(resultList.items);
+        setData(resultList);
       } catch (error) {
         console.error(error);
         message.error(error.message);

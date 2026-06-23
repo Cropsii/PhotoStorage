@@ -4,35 +4,34 @@ import { useLoadCollection } from "../Hooks/useLoadCollection";
 import { ProjectContext } from "../Contexts/ProjectContext";
 import { EditProjectModal } from "../components/EditProjectModal";
 import { ProjectGrid } from "../components/ProjectGrid";
-import { pb } from "../Utils/PB";
+
 const queryOptions = { sort: "+index" };
-let test;
-pb.collection("Projects")
-  .getFirstListItem("", { sort: "-index" })
-  .then((item) => (test = item.index)); // максимальный индекс - потом приберу его красивее
 
 export const Main = () => {
   const [page, setPage] = useState(1);
-  const { mainData, setMainData, reload } = useContext(ProjectContext); // С этими данными мы дальше и работаем
+  const { mainData, setMainData, reload } = useContext(ProjectContext);
   const { data, loading } = useLoadCollection(
     "Projects",
     page,
     12,
     queryOptions,
     reload,
-  ); // Данные с бд - проекты
+  ); // Сырые данные по проектам - сами проекты хранятся в поле items
   const [projectData, setProjectDara] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     if (data) {
-      setMainData(data);
+      setMainData(data.items);
     }
   }, [data, setMainData]);
 
+  // Надо бы поменять название на нормальное
   const editModalOpenSetData = (record) => {
     setProjectDara(record);
     setIsOpen(true);
   };
+
   return (
     <>
       <EditProjectModal
@@ -54,7 +53,7 @@ export const Main = () => {
             onChange={(v) => setPage(v)}
             align="center"
             defaultCurrent={page}
-            total={test}
+            total={data.totalPages}
             responsive
             pageSize={12}
             simple
