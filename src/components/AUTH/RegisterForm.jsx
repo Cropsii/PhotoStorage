@@ -6,8 +6,8 @@ import { useNavigate } from "react-router";
 export const RegisterForm = () => {
   const { create, loading } = useCreateUser();
   const navigate = useNavigate();
-  const register = async (values) => {
-    await create(values);
+  const register = (values) => {
+    create(values);
     navigate("/main");
   };
   return (
