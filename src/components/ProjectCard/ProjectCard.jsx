@@ -1,4 +1,4 @@
-import { Card, Image, Popconfirm, Spin, Tooltip, Typography } from "antd";
+import { Card, Image, Popconfirm, Spin, Tag, Tooltip, Typography } from "antd";
 import { useImgUrl } from "../../Hooks/useImgUrl";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteItem } from "../../Hooks/useDeleteItem";
@@ -21,7 +21,9 @@ export const ProjectCard = ({ record, giveOpenData }) => {
     <Spin percent={"auto"} spinning={imgLoading}>
       <Card
         extra={
-          <Typography.Text type="secondary">{`#${record.index}`}</Typography.Text>
+          <Tag variant="">
+            <Typography.Text type="secondary">{`#${record.index}`}</Typography.Text>
+          </Tag>
         }
         hoverable
         className={styles.ProjectCard}

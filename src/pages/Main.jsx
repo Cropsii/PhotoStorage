@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { Layout, Pagination } from "antd";
+import { Affix, Layout, Pagination } from "antd";
 import { useLoadCollection } from "../Hooks/useLoadCollection";
 import { ProjectContext } from "../Contexts/ProjectContext";
-import { EditProjectModal } from "../components/EditProjectModal";
 import { ProjectGrid } from "../components/ProjectGrid";
+import { EditProjectModal } from "../components/Modal/EditProjectModal";
 
 const queryOptions = { sort: "+index" };
 
 export const Main = () => {
   const [page, setPage] = useState(1);
+
   const { mainData, setMainData, reload } = useContext(ProjectContext);
   const { data, loading } = useLoadCollection(
     "Projects",
@@ -17,7 +18,8 @@ export const Main = () => {
     queryOptions,
     reload,
   ); // Сырые данные по проектам - сами проекты хранятся в поле items
-  const [projectData, setProjectDara] = useState({});
+
+  const [projectData, setProjectData] = useState({});
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export const Main = () => {
 
   // Надо бы поменять название на нормальное
   const editModalOpenSetData = (record) => {
-    setProjectDara(record);
+    setProjectData(record);
     setIsOpen(true);
   };
 
@@ -48,17 +50,22 @@ export const Main = () => {
             editModalOpenSetData={editModalOpenSetData}
           ></ProjectGrid>
         </Layout.Content>
-        <Layout.Footer>
-          <Pagination
-            onChange={(v) => setPage(v)}
-            align="center"
-            defaultCurrent={page}
-            total={data.totalPages}
-            responsive
-            pageSize={12}
-            simple
-          ></Pagination>
-        </Layout.Footer>
+        {data.totalPages > 1 && (
+          <Layout.Footer>
+            <Affix offsetBottom={50}>
+              <Pagination
+                onChange={(v) => setPage(v)}
+                align="center"
+                current={page}
+                defaultCurrent={1}
+                total={data?.totalItems || 0}
+                responsive
+                pageSize={12}
+                simple
+              ></Pagination>
+            </Affix>
+          </Layout.Footer>
+        )}
       </Layout>
     </>
   );

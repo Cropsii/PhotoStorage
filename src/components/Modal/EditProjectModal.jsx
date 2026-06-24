@@ -1,7 +1,7 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Upload } from "antd";
 import FormItem from "antd/es/form/FormItem";
-import { useEditItem } from "../Hooks/useEditItem";
+import { useEditItem } from "../../Hooks/useEditItem";
 import { useEffect } from "react";
 export const EditProjectModal = ({ isOpen, setIsOpen, record }) => {
   const [form] = Form.useForm();

@@ -1,24 +1,31 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, InputNumber, Modal, Upload } from "antd";
+import { Button, Form, Input, Modal, Upload } from "antd";
 import FormItem from "antd/es/form/FormItem";
-import useCreateProject from "../Hooks/useCreateProject";
+import useCreateProject from "../../Hooks/useCreateProject";
+import { getMaxIndex } from "../../Utils/getMaxIndexProj";
+import { useContext } from "react";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 export const AddProjectModal = ({ isOpen, setIsOpen }) => {
   const [form] = Form.useForm();
-
   const { createProject, loading } = useCreateProject();
+  const { user } = useContext(AuthContext);
   const finish = async (values) => {
     console.log(values);
 
     const rawFile = values.file?.[0]?.originFileObj || null;
-    const payload = {
+
+    const maxIndex = await getMaxIndex(user.id);
+    console.log(maxIndex);
+
+    const body = {
       ...values,
       file: rawFile,
+      index: maxIndex + 1,
     };
-    await createProject(payload);
+    await createProject(body);
     form.resetFields();
   };
-
   return (
     <Form
       form={form}
@@ -44,9 +51,10 @@ export const AddProjectModal = ({ isOpen, setIsOpen }) => {
           </Button>,
         ]}
       >
-        <FormItem label="ID" name={"index"} rules={[{ required: true }]}>
+        {/* ID нафиг не надо вручную - напоминание исправит его на автомат */}
+        {/* <FormItem label="ID" name={"index"} rules={[{ required: true }]}>
           <InputNumber min={0}></InputNumber>
-        </FormItem>
+        </FormItem> */}
         <FormItem
           name={"title"}
           label="Имя проекта"

@@ -5,7 +5,9 @@ export const ProjectGrid = ({ loading, data, editModalOpenSetData }) => {
   const isEmptyData = !data || data.length === 0;
 
   if (loading) {
-    return <Spin size="large" fullscreen percent="auto" />;
+    return (
+      <Spin size="large" fullscreen description="Ща все будет" percent="auto" />
+    );
   }
 
   if (isEmptyData) {

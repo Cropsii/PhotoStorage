@@ -1,6 +1,6 @@
 import { FloatButton, Popconfirm, Tooltip } from "antd";
 import FloatButtonGroup from "antd/es/float-button/FloatButtonGroup";
-import { AddProjectModal } from "./AddProjectModal";
+import { AddProjectModal } from "./Modal/AddProjectModal";
 import { useContext, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import {
@@ -19,7 +19,11 @@ export const FloatButtonComponent = () => {
   return (
     <>
       <AddProjectModal isOpen={open} setIsOpen={setState}></AddProjectModal>
-      <FloatButtonGroup trigger="click" icon={<ToolOutlined></ToolOutlined>}>
+      <FloatButtonGroup
+        shape="square"
+        trigger="click"
+        icon={<ToolOutlined></ToolOutlined>}
+      >
         <Popconfirm
           cancelText="нет"
           okText="да"

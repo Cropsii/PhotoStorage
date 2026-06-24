@@ -20,7 +20,7 @@ export const AuthCheckProvider = () => {
 
   useEffect(() => {
     if (!sesion) {
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, [navigate, sesion]);
   if (!sesion) {
