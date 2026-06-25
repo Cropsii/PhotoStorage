@@ -30,7 +30,9 @@ export const FloatButtonComponent = () => {
           title="Выйти из аккаунта?"
           onConfirm={() => logOut()}
         >
-          <FloatButton icon={<LogoutOutlined></LogoutOutlined>}></FloatButton>
+          <Tooltip placement="left" title="кнопка выхода">
+            <FloatButton icon={<LogoutOutlined></LogoutOutlined>}></FloatButton>
+          </Tooltip>
         </Popconfirm>
         <Tooltip title="Добавить проект" placement="left">
           <FloatButton
