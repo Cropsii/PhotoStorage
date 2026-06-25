@@ -5,13 +5,14 @@ import { AuthContext } from "../AuthContext";
 import { FloatButtonComponent } from "../../components/FloatButtonComponent";
 
 export const AuthCheckProvider = () => {
+  const fileToken = pb.files.getToken();
   const navigate = useNavigate();
   const [sesion, setSesion] = useState(pb.authStore.isValid);
   const [user, setUser] = useState(pb.authStore.record);
   console.log(`id польователя AuthCheck ${user?.id}`);
 
   useEffect(() => {
-    const unsubscribe = pb.authStore.onChange((token, model) => {
+    const unsubscribe = pb.authStore.onChange((_, model) => {
       setSesion(!!model);
       setUser(model);
     });
@@ -30,7 +31,7 @@ export const AuthCheckProvider = () => {
     pb.authStore.clear();
   };
   return (
-    <AuthContext.Provider value={{ sesion, user, logOut }}>
+    <AuthContext.Provider value={{ sesion, user, logOut, fileToken }}>
       <FloatButtonComponent></FloatButtonComponent>
       <Outlet />
     </AuthContext.Provider>

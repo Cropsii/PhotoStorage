@@ -15,10 +15,9 @@ export function useImgUrl(record) {
     const load = async () => {
       try {
         setLoading(true);
-        const fileToken = await pb.files.getToken();
 
         const fileUrl = pb.files.getURL(record, record.file, {
-          token: fileToken,
+          // token: fileToken ||,
         });
 
         setUrl(fileUrl);

@@ -16,6 +16,17 @@ export const FloatButtonComponent = () => {
   const [open, setState] = useState(false);
   const { logOut } = useContext(AuthContext);
   const { Toggle, mode } = useContext(ThemeContext);
+  const switchIcons = () => {
+    const localTheme = localStorage.getItem("theme");
+    switch (localTheme) {
+      case "light":
+        return <SunOutlined></SunOutlined>;
+      case "dark":
+        return <MoonOutlined></MoonOutlined>;
+      default:
+        return "auto";
+    }
+  };
   return (
     <>
       <AddProjectModal isOpen={open} setIsOpen={setState}></AddProjectModal>
@@ -40,16 +51,15 @@ export const FloatButtonComponent = () => {
             onClick={() => setState((prev) => !prev)}
           ></FloatButton>
         </Tooltip>
-        <FloatButton
-          onClick={() => Toggle()}
-          icon={
-            mode === "light" ? (
-              <MoonOutlined></MoonOutlined>
-            ) : (
-              <SunOutlined></SunOutlined>
-            )
-          }
-        ></FloatButton>
+        <Tooltip placement="left" title="Изменить тему">
+          <FloatButton
+            onClick={() => {
+              Toggle();
+              console.log(mode);
+            }}
+            icon={switchIcons()}
+          ></FloatButton>
+        </Tooltip>
       </FloatButtonGroup>
     </>
   );

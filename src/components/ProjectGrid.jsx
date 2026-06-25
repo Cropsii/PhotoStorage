@@ -1,7 +1,9 @@
 import { Col, Empty, Row, Spin } from "antd";
 import { ProjectCard } from "./ProjectCard/ProjectCard";
+import { useOutletContext } from "react-router";
 
-export const ProjectGrid = ({ loading, data, editModalOpenSetData }) => {
+export const ProjectGrid = () => {
+  const { mainData: data, editModalOpenSetData, loading } = useOutletContext();
   const isEmptyData = !data || data.length === 0;
 
   if (loading) {

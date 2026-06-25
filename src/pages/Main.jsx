@@ -2,18 +2,21 @@ import { useContext, useEffect, useState } from "react";
 import { Affix, Layout, Pagination } from "antd";
 import { useLoadCollection } from "../Hooks/useLoadCollection";
 import { ProjectContext } from "../Contexts/ProjectContext";
-import { ProjectGrid } from "../components/ProjectGrid";
+
 import { EditProjectModal } from "../components/Modal/EditProjectModal";
+import { Outlet, useNavigate, useParams } from "react-router";
 
 const queryOptions = { sort: "+index" };
 
 export const Main = () => {
-  const [page, setPage] = useState(1);
+  const navigate = useNavigate();
+  const params = useParams();
+  const pageIndex = params.pageIndex;
 
   const { mainData, setMainData, reload } = useContext(ProjectContext);
   const { data, loading } = useLoadCollection(
     "Projects",
-    page,
+    pageIndex,
     12,
     queryOptions,
     reload,
@@ -44,19 +47,18 @@ export const Main = () => {
 
       <Layout style={{ minHeight: "100dvh", padding: "24px" }}>
         <Layout.Content>
-          <ProjectGrid
-            data={mainData}
-            loading={loading}
-            editModalOpenSetData={editModalOpenSetData}
-          ></ProjectGrid>
+          <Outlet
+            context={{ mainData, editModalOpenSetData, loading }}
+          ></Outlet>
         </Layout.Content>
+
         {data.totalPages > 1 && (
           <Layout.Footer>
             <Affix offsetBottom={50}>
               <Pagination
-                onChange={(v) => setPage(v)}
+                onChange={(v) => navigate(`${v}`, { relative: true })}
                 align="center"
-                current={page}
+                current={pageIndex}
                 defaultCurrent={1}
                 total={data?.totalItems || 0}
                 responsive

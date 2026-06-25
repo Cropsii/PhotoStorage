@@ -2,9 +2,13 @@ import { ConfigProvider, theme } from "antd";
 import { useEffect, useState } from "react";
 import { ThemeContext } from "../ThemeContext";
 
-
 export const ThemeContextProvider = ({ children }) => {
   const [mode, setMode] = useState(() => {
+    const localTheme = localStorage.getItem("theme");
+    if (localTheme != "auto") {
+      document.documentElement.setAttribute("data-theme", localTheme);
+      return localTheme;
+    }
     const isSystemDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
     ).matches;
@@ -12,7 +16,19 @@ export const ThemeContextProvider = ({ children }) => {
   });
 
   const Toggle = () => {
-    setMode((prev) => (prev == "light" ? "dark" : "light"));
+    setMode((prev) => {
+      switch (prev) {
+        case "light":
+          localStorage.setItem("theme", "dark");
+          return "dark";
+        case "dark":
+          localStorage.setItem("theme", "auto");
+          return "auto";
+        default:
+          localStorage.setItem("theme", "light");
+          return "light";
+      }
+    });
   };
 
   useEffect(() => {
@@ -30,6 +46,5 @@ export const ThemeContextProvider = ({ children }) => {
         {children}
       </ConfigProvider>
     </ThemeContext.Provider>
-    
   );
 };

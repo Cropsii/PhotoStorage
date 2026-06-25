@@ -9,12 +9,12 @@ import { ThemeContextProvider } from "./Contexts/Providers/ThemeContextProvider.
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeContextProvider>
-      <ProjectProvider>
-        <AntApp>
+    <AntApp>
+      <ThemeContextProvider>
+        <ProjectProvider>
           <RouterProvider router={router}></RouterProvider>
-        </AntApp>
-      </ProjectProvider>
-    </ThemeContextProvider>
+        </ProjectProvider>
+      </ThemeContextProvider>
+    </AntApp>
   </StrictMode>,
 );
